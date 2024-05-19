@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  fsdp_qlora:
+    image: fsdp_qlora_image
+    secrets:
+      - wandb_api_key
+      - huggingface_api_key
+
+secrets:
+  wandb_api_key:
+    external: true
+  huggingface_api_key:
+    external: true
