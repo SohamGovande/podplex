@@ -4,5 +4,5 @@ ENV/
 .DS_Store
 .env
 .python-version
-.safetensors
+*.safetensors
 fsdp/fsdp_qlora_2
