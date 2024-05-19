@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
@@ -57,19 +58,26 @@ def greedy_decode(model: nn.Module, source: torch.Tensor, source_mask: torch.Ten
 
     return decoder_input.squeeze(0)
 
-def run_inference(model: nn.Module, tokenizer_src: Tokenizer, tokenizer_tgt: Tokenizer, source_text: str, max_len: int, device: torch.device):
+def run_inference(model: nn.Module, tokenizer_src: Tokenizer, tokenizer_tgt: Tokenizer, source_texts: list[str], max_len: int, device: torch.device):
     model.eval()
+    model.to(device)
 
-    # Tokenize the source text
-    source_ids = tokenizer_src.encode(source_text).ids
-    source_tensor = torch.tensor(source_ids).unsqueeze(0).to(device)
-    source_mask = torch.ones(1, 1, 1, len(source_ids)).to(device)
+    def infer(source_text):
+        source_ids = tokenizer_src.encode(source_text).ids
+        source_tensor = torch.tensor(source_ids).unsqueeze(0).to(device)
+        source_mask = torch.ones(1, 1, 1, len(source_ids)).to(device)
 
-    with torch.no_grad():
-        output_ids = greedy_decode(model, source_tensor, source_mask, tokenizer_src, tokenizer_tgt, max_len, device)
+        with torch.no_grad():
+            output_ids = greedy_decode(model, source_tensor, source_mask, tokenizer_src, tokenizer_tgt, max_len, device)
+        
+        output_text = tokenizer_tgt.decode(output_ids.detach().cpu().numpy())
+        print("TRANSLATION:", output_text)
+        return output_text
 
-    output_text = tokenizer_tgt.decode(output_ids.detach().cpu().numpy())
-    return output_text
+    with ThreadPoolExecutor() as executor:
+        outputs = list(executor.map(infer, source_texts))
+
+    return outputs
 
 def get_all_sentences(ds: Dataset, lang: str):
     for item in ds:
@@ -112,7 +120,7 @@ def load_model(config: ModelConfig, tokenizer_src: Tokenizer, tokenizer_tgt: Tok
 
     return model
 
-def run_inference_pipeline(config: ModelConfig):
+def run_inference_pipeline(config: ModelConfig, prompts: list[str]):
     # Define the device
     assert torch.cuda.is_available(), "Inference on CPU is not supported"
     device = torch.device("cuda")
@@ -128,13 +136,8 @@ def run_inference_pipeline(config: ModelConfig):
     print("Loading model...")
     model = load_model(config, tokenizer_src, tokenizer_tgt, device)
 
-    while True:
-        source_text = input("Enter the source text (or 'q' to quit): ")
-        if source_text.lower() == 'q':
-            break
-
-        output_text = run_inference(model, tokenizer_src, tokenizer_tgt, source_text, config.seq_len, device)
-        print(f"Translated text: {output_text}")
+    output_texts = run_inference(model, tokenizer_src, tokenizer_tgt, prompts, config.seq_len, device)
+    return output_texts
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
