@@ -2,53 +2,21 @@
 
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { CardContent, Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState, useRef, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-
-const dummy_data = [
-  {
-    id: "1",
-    name: "data.zip",
-  },
-  {
-    id: "2",
-    name: "data2.zip",
-  },
-  {
-    id: "3",
-    name: "data3.zip",
-  },
-];
-
-const empty_data = [];
+import axios from "axios";
+import { Dropzone } from "@mantine/dropzone";
 
 export default function Component() {
-  const [dataSet, setDataSet] = useState("");
-  const [dataOptions, setDataOptions] = useState<
-    {
-      id: string;
-      name: string;
-    }[]
-  >([]);
-  const [loading, setLoading] = useState(false);
-  const [modelUrl, setModelUrl] = useState("");
-  const [podInstances, setPodInstances] = useState("");
-
+  const [dataSet, setDataSet] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    // Fetch data sets
-    setDataOptions(dummy_data);
-  }, []);
+  const [loading, setLoading] = useState(false);
+  const [training, setTraining] = useState(false);
+  const [podNumber, setPodNumber] = useState("");
+  const [batchSize, setBatchSize] = useState("");
+  const [modelUrl, setModelUrl] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   const handleButtonClick = () => {
     if (fileInputRef.current) {
@@ -59,75 +27,80 @@ export default function Component() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const newUuid = uuidv4();
-      setDataOptions([...dataOptions, { id: newUuid, name: file.name }]);
-      setDataSet(newUuid);
+      setDataSet(file);
     }
   };
 
   const startTraining = async () => {
     setLoading(true);
+    setTraining(true);
 
-    setLoading(false);
+    try {
+      await axios.post(
+        "https://8vz7zrwpyd.execute-api.us-west-1.amazonaws.com/default/scheduler?action=start"
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const stopTraining = async () => {
+    setLoading(true);
+    setTraining(false);
+
+    try {
+      await axios.post(
+        "https://8vz7zrwpyd.execute-api.us-west-1.amazonaws.com/default/scheduler?action=stop"
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <main className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
       <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-col h-full">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold tracking-tight">
               Dataset Selection
             </h2>
             <p className="text-gray-500 dark:text-gray-400">
-              Choose the dataset(s) to use for training.
+              Upload a dataset(s) to use for training.
             </p>
           </div>
-          <Card>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="dataset">Select Dataset</Label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      className="w-full justify-between"
-                      variant="outline"
-                    >
-                      {dataOptions.find((data) => data.id === dataSet)?.name ||
-                        "Select Dataset"}
-                      <ChevronDownIcon className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuRadioGroup
-                      value={dataSet}
-                      onValueChange={setDataSet}
-                    >
-                      {dataOptions.map((data, index) => (
-                        <DropdownMenuRadioItem key={index} value={data.id}>
-                          {data.name}
-                        </DropdownMenuRadioItem>
-                      ))}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+          <Card className="flex flex-1 items-center justify-center p-6">
+            <Dropzone
+              className="w-full h-full"
+              onDrop={(files) => setDataSet(files[0])}
+              onReject={(files) => console.log("rejected files", files)}
+              // accept={IMAGE_MIME_TYPE}
+            >
+              <div className="flex flex-col items-center justify-center space-y-4 min-h-[120px] w-full">
+                <div>
+                  <p className="text-lg">Upload Custom Dataset</p>
+                </div>
               </div>
-              <div className="space-y-2">
-                <Button
-                  className="w-full"
-                  variant="outline"
-                  onClick={handleButtonClick}
-                >
-                  Upload Custom Dataset
-                </Button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-              </div>
-            </CardContent>
+            </Dropzone>
+            {/* <div className="space-y-4 p-3 flex-1">
+              <Button
+                className="w-full h-full"
+                variant="outline"
+                onClick={handleButtonClick}
+              >
+                Upload Custom Dataset
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div> */}
           </Card>
         </div>
         <div className="space-y-4">
@@ -140,13 +113,19 @@ export default function Component() {
             </p>
           </div>
           <Card>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="model">Model</Label>
-                <div className="relative">
-                  <Input id="model" placeholder="HuggingFace Model URL" />
-                </div>
-              </div>
+            <CardContent className="space-y-3">
+              <Input
+                id="model"
+                placeholder="HuggingFace Model URL"
+                value={modelUrl}
+                onChange={(e) => setModelUrl(e.target.value)}
+              />
+              <Input
+                id="accessToken"
+                placeholder="HuggingFace Access Token"
+                value={accessToken}
+                onChange={(e) => setAccessToken(e.target.value)}
+              />
             </CardContent>
           </Card>
         </div>
@@ -162,28 +141,23 @@ export default function Component() {
           <Card>
             <CardContent className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="pods">Pods/Instances</Label>
-                <Input id="pods" placeholder="Number of pods" type="number" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="learning-rate">Learning Rate</Label>
+                <Label htmlFor="pods">Pods</Label>
                 <Input
-                  disabled
-                  id="learning-rate"
-                  placeholder="Learning rate"
+                  id="pods"
+                  placeholder="Number of pods"
                   type="number"
+                  value={podNumber}
+                  onChange={(e) => setPodNumber(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="batch-size">Batch Size</Label>
-                <Input id="batch-size" placeholder="Batch size" type="number" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="epochs">Epochs</Label>
                 <Input
-                  id="epochs"
-                  placeholder="Number of epochs"
+                  id="batch-size"
+                  placeholder="Batch size"
                   type="number"
+                  value={batchSize}
+                  onChange={(e) => setBatchSize(e.target.value)}
                 />
               </div>
             </CardContent>
@@ -200,11 +174,27 @@ export default function Component() {
           </div>
           <Card>
             <CardContent className="flex flex-col gap-3 md:grid-cols-2">
-              <div className="space-y-2">
-                <Button className="w-full" variant="outline">
+              <div className="flex gap-x-2">
+                <Button
+                  className="w-full"
+                  disabled={
+                    loading ||
+                    training ||
+                    dataSet === null ||
+                    !modelUrl ||
+                    !podNumber ||
+                    !batchSize
+                  }
+                  onClick={startTraining}
+                >
                   Start Training
                 </Button>
-                <Button className="w-full" variant="outline">
+                <Button
+                  className="w-full"
+                  disabled={loading || !training}
+                  variant="destructive"
+                  onClick={stopTraining}
+                >
                   Stop Training
                 </Button>
               </div>
@@ -217,24 +207,5 @@ export default function Component() {
         </div>
       </div>
     </main>
-  );
-}
-
-function ChevronDownIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
   );
 }

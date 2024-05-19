@@ -9,6 +9,8 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "../apollo-client";
 import { cn } from "@/lib/utils";
 
+import "@mantine/dropzone/styles.css";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
