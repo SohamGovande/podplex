@@ -6,14 +6,14 @@ from restarts import trigger_restart
 import requests
 
 # delete the RUNPOD_API_KEY from environ 
-DESIRED_PODS = 2
-del os.environ["RUNPOD_API_KEY"]
+DESIRED_PODS = 4
+# del os.environ["RUNPOD_API_KEY"]
 
-dotenv.load_dotenv()
-runpod.api_key = os.getenv("RUNPOD_API_KEY")
-endpoints = runpod.get_endpoints()
+# dotenv.load_dotenv()
+# runpod.api_key = os.getenv("RUNPOD_API_KEY")
+# endpoints = runpod.get_endpoints()
 
-url = 'https://api.runpod.io/graphql?api_key=QP8KDTX5RJ5LSZEMMPM3O15OKO2XREZ253RNTEH2'
+url = 'https://api.runpod.io/graphql?api_key=CZIZ7HIRD8WP96NLMXVWHUF612RLYKSOJBR3YT4S'
 headers = {
     'Content-Type': 'application/json'
 }
@@ -28,5 +28,6 @@ pods = result['data']['myself']['pods']
 # num active pods 
 num_active_pods = len(pods)
 print(num_active_pods)
+
 if num_active_pods < DESIRED_PODS:
-    trigger_restart()
+    trigger_restart(pods, DESIRED_PODS)

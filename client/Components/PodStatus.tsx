@@ -1,46 +1,3 @@
-// const PodStatus = ({ pod }: Props) => {
-//   return (
-//     <Card className="border rounded-lg flex flex-col">
-//       <CardContent className="flex flex-col gap-y-3">
-//         <p className="text-2xl font-semibold">{pod.name}</p>
-//         <p className="text-xl font-semibold">GPUs</p>
-//         <div className="grid grid-cols-2">
-//           {pod?.runtime?.gpus.map((gpu: any) => (
-//             <div
-//               key={gpu.id}
-//               className="flex flex-col border rounded-lg bg-slate-100 p-3"
-//             >
-//               <p className="font-medium">{gpu.id}</p>
-//               <div className="mt-3">
-//                 <p>Utilization: {gpu.gpuUtilPercent}%</p>
-//                 <p>Memory: {gpu.memoryUtilPercent}%</p>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//         <div>
-//           <p>Ports</p>
-//           {pod?.runtime?.ports.map((port: any) => (
-//             <div key={port.ip} className="flex gap-x-4">
-//               <p>IP: {port.ip}</p>
-//               <p>Public IP: {port.isIpPublic ? "Yes" : "No"}</p>
-//               <p>Private Port: {port.privatePort}</p>
-//               <p>Public Port: {port.publicPort}</p>
-//               <p>Type: {port.type}</p>
-//             </div>
-//           ))}
-//         </div>
-//       </CardContent>
-//     </Card>
-//   );
-// };
-
-// export default PodStatus;
-
-type Props = {
-  pod: any;
-};
-
 import {
   CardTitle,
   CardDescription,
@@ -48,69 +5,98 @@ import {
   CardContent,
   Card,
 } from "@/components/ui/card";
+import { LuCircuitBoard, LuNetwork } from "react-icons/lu";
+
+type Props = {
+  pod: any;
+};
+
+function formatTime(seconds: number) {
+  const days = Math.floor(seconds / (24 * 3600));
+  seconds %= 24 * 3600;
+  const hours = Math.floor(seconds / 3600);
+  seconds %= 3600;
+  const minutes = Math.floor(seconds / 60);
+  seconds %= 60;
+
+  const results = [];
+  if (days > 0) results.push(`${days} day${days > 1 ? "s" : ""}`);
+  if (hours > 0) results.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+  if (minutes > 0) results.push(`${minutes} minute${minutes > 1 ? "s" : ""}`);
+  if (seconds > 0) results.push(`${seconds} second${seconds > 1 ? "s" : ""}`);
+
+  // Return the largest two units
+  if (results.length > 2) {
+    return results.slice(0, 2).join(", ");
+  } else {
+    return results.join(", ");
+  }
+}
 
 export default function PodStatus({ pod }: Props) {
   return (
     <Card className="w-full max-w-2xl">
-      <CardHeader>
-        <CardTitle>CPU Pod</CardTitle>
-        <CardDescription>Runtime: 2 days 3 hours</CardDescription>
+      <CardHeader className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
+        <div>
+          <CardTitle className="text-2xl font-bold">Pod {pod.id}</CardTitle>
+          <CardDescription className="text-gray-500 dark:text-gray-400">
+            Uptime: {formatTime(pod?.runtime?.uptimeInSeconds ?? 0)}
+          </CardDescription>
+        </div>
       </CardHeader>
-      <CardContent className="grid gap-6">
-        <div className="grid gap-4">
-          <h3 className="text-lg font-semibold">GPUs</h3>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {pod?.runtime?.gpus.map((gpu: any) => (
-              <>
-                <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg grid gap-2">
-                  <div className="font-medium">{gpu.id}</div>
-                  <div className="text-gray-500 dark:text-gray-400">
+      <CardContent className="grid gap-8">
+        <div className="grid gap-6">
+          <div className="grid gap-2">
+            <h3 className="text-xl font-semibold">GPUs</h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {pod?.runtime?.gpus.map((gpu: any) => (
+                <div
+                  key={gpu.id}
+                  className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium text-lg">{gpu.id}</div>
+                    <LuCircuitBoard className="h-6 w-6 min-w-6 text-gray-500 dark:text-gray-400" />
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">
                     Utilization: {gpu.gpuUtilPercent}%
                   </div>
-                  <div className="text-gray-500 dark:text-gray-400">
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">
                     Memory: {gpu.memoryUtilPercent}%
                   </div>
                 </div>
-              </>
-            ))}
-          </div>
-        </div>
-        <div className="grid gap-4">
-          <h3 className="text-lg font-semibold">Ports</h3>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg grid gap-2">
-              <div className="font-medium">Port 1</div>
-              <div className="text-gray-500 dark:text-gray-400">
-                IP: 192.168.1.100
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Public IP: 123.45.67.89
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Private Port: 8080
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Public Port: 80
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">Type: HTTP</div>
+              ))}
             </div>
-            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg grid gap-2">
-              <div className="font-medium">Port 2</div>
-              <div className="text-gray-500 dark:text-gray-400">
-                IP: 192.168.1.101
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Public IP: 123.45.67.90
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Private Port: 8081
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Public Port: 443
-              </div>
-              <div className="text-gray-500 dark:text-gray-400">
-                Type: HTTPS
-              </div>
+          </div>
+          <div className="grid gap-2">
+            <h3 className="text-xl font-semibold">Ports</h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {pod?.runtime?.ports.map((port: any, index: number) => (
+                <div
+                  key={port.ip}
+                  className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium text-lg">Port {index}</div>
+                    <LuNetwork className="h-6 w-6 min-w-6 text-gray-500 dark:text-gray-400" />
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">
+                    IP: {port.ip}
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">
+                    Public IP: {port.isIpPublic ? "Yes" : "No"}
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">
+                    Private Port: {port.privatePort}
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm">
+                    Public Port: {port.publicPort}
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-400 text-sm flex gap-x-1">
+                    Type: <p className="uppercase">{port.type}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

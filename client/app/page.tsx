@@ -23,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     listAllPods();
-  }, []);
+  }, [listAllPods]);
 
   const startTraining = async () => {
     setLoading(true);
