@@ -40,6 +40,8 @@ const models = [
   },
 ];
 
+const empty: any[] = [];
+
 export default function ModelsPage() {
   const [open, setOpen] = useState(false);
   const [model, setModel] = useState<{
@@ -83,7 +85,17 @@ export default function ModelsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-              {models.map((model) => (
+              {empty.length === 0 && (
+                <tr>
+                  <td
+                    className="px-6 py-4 text-gray-500 dark:text-gray-400 font-inter"
+                    colSpan={3}
+                  >
+                    No models available.
+                  </td>
+                </tr>
+              )}
+              {empty.map((model) => (
                 <tr key={model.name}>
                   <td className="px-6 py-4 font-medium text-gray-900 dark:text-gray-50 font-inter">
                     {model.name}
