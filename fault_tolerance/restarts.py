@@ -1,8 +1,8 @@
 import requests
 
 
-def trigger_restart(pods, desired_pods):
-    url = 'https://api.runpod.io/graphql?api_key=CZIZ7HIRD8WP96NLMXVWHUF612RLYKSOJBR3YT4S'
+def trigger_restart(pods, desired_pods, API_KEY):
+    url = f'https://api.runpod.io/graphql?api_key={API_KEY}'
 
     headers = {
         'Content-Type': 'application/json'
@@ -90,3 +90,5 @@ def trigger_restart(pods, desired_pods):
     
     print("New pods: ", new_pods)
     print("Restart complete")
+
+    return new_pods
