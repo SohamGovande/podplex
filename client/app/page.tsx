@@ -29,7 +29,7 @@ export default function MainPage() {
           <img src='https://raw.githubusercontent.com/vllm-project/vllm/main/docs/source/assets/logos/vllm-logo-text-light.png' className='h-[1em]' />
         </p>
 
-        <p>a distributed platform for running training and inference jobs on machine learning models.</p>
+        <p>distributed training & serverless inference at scale</p>
         <img src='/fsdp.jpg' width={600} className='self-center' style={{ width: '60%' }} />
 
         <p className='text-2xl'>how it works</p>
