@@ -2,40 +2,40 @@
 
 import { useState } from "react";
 
+import Link from "next/link";
 import Evaluate from "@/components/Evaluate";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { LuPlus } from "react-icons/lu";
 
 const models = [
   {
     name: "Llama-3",
     hfName: "Undi95/Meta-Llama-3-8B-hf",
-    metrics: "Perplexity: 8.2, Inference Time: 120ms",
+    metrics: "86%",
     baseUrl: "https://api.openai.com/v1/engines/llama-3",
   },
   {
     name: "BERT-Large",
     hfName: "google-bert/bert-large-uncased",
-    metrics: "Perplexity: 6.9, Inference Time: 150ms",
+    metrics: "54%",
     baseUrl: "https://api.openai.com/v1/engines/bert-large",
   },
   {
     name: "Mistral 7B",
     hfName: "mistralai/Mistral-7B-v0.1",
-    metrics: "Perplexity: 7.5, Inference Time: 130ms",
+    metrics: "67%",
     baseUrl: "https://api.openai.com/v1/engines/mistral-7b",
   },
   {
     name: "Grok-1",
     hfName: "xai-org/grok-1",
-    metrics: "Perplexity: 8.7, Inference Time: 180ms",
+    metrics: "78%",
     baseUrl: "https://api.openai.com/v1/engines/grok-1",
   },
   {
     name: "T5-Base",
     hfName: "google-t5/t5-base",
-    metrics: "Perplexity: 7.2, Inference Time: 160ms",
+    metrics: "43%",
     baseUrl: "https://api.openai.com/v1/engines/t5-base",
   },
 ];
@@ -77,7 +77,7 @@ export default function ModelsPage() {
                   Model Name
                 </th>
                 <th className="px-6 py-4 text-left font-medium text-gray-900 dark:text-gray-50 font-inter">
-                  Metrics
+                  Accuracy
                 </th>
                 <th className="px-6 py-4 text-right font-medium text-gray-900 dark:text-gray-50 font-inter"></th>
               </tr>
