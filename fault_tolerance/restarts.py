@@ -86,7 +86,7 @@ def trigger_restart(pods, desired_pods):
         response = requests.post(url, headers=headers, json=create_payload)
         result = response.json()
 
-        print("Result: ", result)
+        new_pods.append(result['data']['podRentInterruptable'])
     
     print("New pods: ", new_pods)
     print("Restart complete")

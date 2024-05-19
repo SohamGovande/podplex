@@ -6,7 +6,7 @@ from restarts import trigger_restart
 import requests
 
 # delete the RUNPOD_API_KEY from environ 
-DESIRED_PODS = 2
+DESIRED_PODS = 4
 # del os.environ["RUNPOD_API_KEY"]
 
 # dotenv.load_dotenv()
