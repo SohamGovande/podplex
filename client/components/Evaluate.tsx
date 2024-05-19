@@ -49,11 +49,17 @@ export default function Evaluate({
     setOpen(false);
 
     // upload csv to supabase
-    await supabase.storage
-      .from("public")
-      .upload(`eval_files/${evalSet.name}`, evalSet);
+    const { data } = await supabase.storage
+      .from("eval_files")
+      .upload(`${evalSet.name}`, evalSet);
 
-    // TODO: run evals
+    // evaluate model
+    await axios.post("https://api.runpod.ai/v2/6lgg72smxe3cky/runsync", {
+      input: {
+        eval_file: data?.path,
+        model_name: model?.name,
+      },
+    });
   };
 
   return (
