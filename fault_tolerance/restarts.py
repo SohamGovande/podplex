@@ -38,7 +38,7 @@ def trigger_restart(pods, desired_pods):
         }
 
         terminate_payload = {
-            "query": CREATE_POD,
+            "query": TERMINATE_POD,
             "variables": terminate_variables
         }
 
