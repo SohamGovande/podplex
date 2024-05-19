@@ -88,7 +88,7 @@ export default function Home() {
           Show All Pods
         </Button>
       </div>
-      <div>
+      <div className="flex flex-col gap-y-3">
         {allPodsData?.myself.pods.map((pod: any) => (
           <PodStatus key={pod.id} pod={pod} />
         ))}
