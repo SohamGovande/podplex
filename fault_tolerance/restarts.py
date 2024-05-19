@@ -3,11 +3,26 @@ import requests
 
 def trigger_restart(pods, desired_pods):
     url = 'https://api.runpod.io/graphql?api_key=CZIZ7HIRD8WP96NLMXVWHUF612RLYKSOJBR3YT4S'
-    TERMINATE_POD ="mutation terminatePod($input: PodTerminateInput!) {\n  podTerminate(input: $input)\n}\n"
+
     headers = {
         'Content-Type': 'application/json'
     }
-    CREATE_POD = ""
+
+    TERMINATE_POD = """
+    mutation terminatePod($input: PodTerminateInput!) {
+        podTerminate(input: $input)
+    }
+    """
+
+    CREATE_POD = """
+    mutation podRentInterruptable($input: PodRentInterruptableInput!) {
+        podRentInterruptable(input: $input) {
+            id
+            machineId
+            __typename
+        }
+    }
+    """
     
     print("Triggering restart")
 
@@ -15,10 +30,26 @@ def trigger_restart(pods, desired_pods):
 
     for pod in pods:
         print("Terminating pod: ", pod['id'])
-        response = requests.post(TERMINATE_POD, headers=headers, json=TERMINATE_POD)
+
+        terminate_variables = {
+            "input": {
+                "podId": pod['id']
+            }
+        }
+
+        terminate_payload = {
+            "query": CREATE_POD,
+            "variables": terminate_variables
+        }
+
+        response = requests.post(url, headers=headers, json=terminate_payload)
         result = response.json()
 
         print("Result: ", result)
+    
+    print("Termination complete")
+
+    return
 
     print("Restarting Pods...")
 

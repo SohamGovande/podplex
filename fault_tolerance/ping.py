@@ -28,6 +28,6 @@ pods = result['data']['myself']['pods']
 # num active pods 
 num_active_pods = len(pods)
 print(num_active_pods)
+
 if num_active_pods < DESIRED_PODS:
-    pass
-    # trigger_restart(pods, DESIRED_PODS)
+    trigger_restart(pods, DESIRED_PODS)
