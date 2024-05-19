@@ -22,7 +22,8 @@ That’s where PodPlex comes in. We integrate with decentralized cloud servers l
 
 ## Features
 
-Train machine learning models across distributed spot instances with FSDP
+Train machine learning models across distributed spot instances with FSDP.
+Automatic orchestration of Runpod pods for training via a custom Docker image
 Uses Runpod Spot instances + Community Cloud to reduce cloud costs by up to 76% (benchmarked on GTX 4090’s).
 Automatically handles restarts/failed nodes by using checkpoint backups.
 Run eval benchmarks against trained models using Runpod serverless
@@ -34,15 +35,15 @@ Visualize evals in Nomic for quick feedback loops
 
 ### client
 
-This contains the frontend for podplex, where you can start training and evaluation jobs
+This contains the frontend for podplex, where you can start training and evaluation jobs. Uses Runpod GraphQL API to spin up pods. These pods then use custom docker images (defined by the `Dockerfile`) to train the model.
 
 ### fault_tolerance
 
-AWS lambda code for checking spot instance health and restarting pods if any shut down
+AWS lambda code for checking spot instance health and restarting pods if any shut down.
 
 ### fsdp
 
-Uses Fully Sharded Data Parallel methodology to train across multiple GPUs
+Uses Fully Sharded Data Parallel methodology to train across multiple GPUs. These pods use custom docker images to train the model.
 
 ### scheduler
 
@@ -50,7 +51,7 @@ AWS lambda code that determines whether or not the fault_tolerance lambda should
 
 ### virtual_llm
 
-Runpod Serverless endpoint with VLLMs for inference
+Runpod Serverless endpoint with vLLM’s for inference
 
 ### parallel
 
