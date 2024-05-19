@@ -1,0 +1,1 @@
+torchrun --nproc_per_node=1 --nnodes=2 --rdzv_id=456 --rdzv_backend=c10d --rdzv_endpoint=66.114.112.70:48123 train.py --batch_size 8 --model_folder "/workspace/runpod-hackathon/parallel/weights"
