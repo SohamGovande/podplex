@@ -9,7 +9,7 @@
 - frontend on **Vercel**
 - built with **Replit**
 
-![Architecture Diagram](https://i.postimg.cc/057FzVMn/image.png)
+![Architecture Diagram](https://i.postimg.cc/dtgKdhQm/Screenshot-2024-05-19-at-11-12-32.png)
 
 ## Motivation
 
