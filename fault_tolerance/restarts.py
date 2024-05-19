@@ -55,9 +55,7 @@ def trigger_restart(pods, desired_pods, API_KEY):
 
     for i in range(desired_pods):
         print("Restarting pod: ", i)
-
-        print("Terminating pod: ", pod['id'])
-
+        
         create_variables = {
             "input": {
                 "bidPerGpu": 0.55,
