@@ -1,11 +1,13 @@
 import runpod
 import pandas as pd
 
-from config import get_default_config
-from inference import run_inference_pipeline
 from supabase import create_client, Client
 from io import StringIO, BytesIO
 import datetime
+import asyncio
+from openai import AsyncOpenAI
+import os
+import asyncio
 
 supabase: Client = create_client(
     "https://twuuwrleysnspvxvjfvl.supabase.co",
@@ -14,6 +16,33 @@ supabase: Client = create_client(
 
 EVAL_BUCKET_NAME = "public"
 RESULT_BUCKET_NAME = "eval_results"
+
+
+api_key = "J9K8LEYPJR7PW19J184Z79KYGXFO7Z0U43C862M1"
+endpoint_id = os.environ.get("RUNPOD_ENDPOINT_ID")
+
+
+client = AsyncOpenAI(
+    api_key=api_key,
+    base_url=f"https://api.runpod.ai/v2/{endpoint_id}/openai/v1",
+)
+
+
+async def run_evaluation_pipeline(model_name: str, batch: list[str]):
+    tasks = []
+
+    for prompt in batch:
+        tasks.append(
+            client.completions.create(
+                model=model_name,
+                prompt=prompt,
+                temperature=0.5,
+                max_tokens=100,
+            )
+        )
+
+    outputs = await asyncio.gather(*tasks)
+    return [output.choices[0].text for output in outputs]
 
 
 def upload_dataframe_to_supabase(df: pd.DataFrame, bucket_name: str):
@@ -34,19 +63,20 @@ def upload_dataframe_to_supabase(df: pd.DataFrame, bucket_name: str):
 async def handler(job):
     job_input = job["input"]
 
-    if not job_input.get("eval_file", False):
+    if not job_input.get("eval_file", False) or not job_input.get("model_name", False):
         return {"error": "Invalid input, missing eval_file"}
 
     batch_size = job_input.get("batch_size", 20)
 
     # supabase file url
     eval_file = job_input["eval_file"]
+    model_name = job_input.get("model_name")
+
     eval_file = supabase.storage.from_(EVAL_BUCKET_NAME).download(eval_file)
 
     file_like_object = BytesIO(eval_file)
 
     eval_df = pd.read_csv(file_like_object)
-    config = get_default_config()
 
     all_outputs = []
 
@@ -63,7 +93,7 @@ async def handler(job):
         batches.append(batch)
 
     for batch in batches:
-        outputs = run_inference_pipeline(config, batch)
+        outputs = await run_evaluation_pipeline(model_name, batch)
         all_outputs.extend(outputs)
 
     eval_df["model output"] = all_outputs

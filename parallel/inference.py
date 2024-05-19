@@ -71,7 +71,7 @@ def run_inference(model: nn.Module, tokenizer_src: Tokenizer, tokenizer_tgt: Tok
             output_ids = greedy_decode(model, source_tensor, source_mask, tokenizer_src, tokenizer_tgt, max_len, device)
         
         output_text = tokenizer_tgt.decode(output_ids.detach().cpu().numpy())
-        print("TRANSLATION:", output_text)
+        print("OUTPUT:", output_text)
         return output_text
 
     with ThreadPoolExecutor() as executor:
