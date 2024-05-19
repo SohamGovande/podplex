@@ -1,6 +1,6 @@
 # podplex
 
-💻🌐 distributed training & inference at scale - https://podplex.run
+https://podplex.run - 🦿💻🌐 distributed training & serverless inference at scale
 
 ## our architecture
 
