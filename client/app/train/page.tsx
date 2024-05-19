@@ -1,14 +1,14 @@
 'use client'
 
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
-import { CardContent, Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
-import { Dropzone } from '@mantine/dropzone'
-import { FaTrash } from 'react-icons/fa'
-import { ActionIcon } from '@mantine/core'
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { CardContent, Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useState, useRef } from "react";
+import axios from "axios";
+import { Dropzone } from "@mantine/dropzone";
+import { FaTrash } from "react-icons/fa";
+import { ActionIcon } from "@mantine/core";
 
 export default function Component() {
   const [dataSet, setDataSet] = useState<File | null>(null)
@@ -99,9 +99,21 @@ export default function Component() {
             <p className='text-gray-500 dark:text-gray-400'>Choose a pre-trained model or use a custom model.</p>
           </div>
           <Card>
-            <CardContent className='space-y-3'>
-              <Input id='model' placeholder='HuggingFace Model URL' value={modelUrl} onChange={e => setModelUrl(e.target.value)} />
-              <Input id='accessToken' placeholder='HuggingFace Access Token' value={accessToken} onChange={e => setAccessToken(e.target.value)} />
+            <CardContent className="space-y-3">
+              <Input
+                id="model"
+                placeholder="HuggingFace Model URL"
+                value={modelUrl}
+                onChange={(e) => setModelUrl(e.target.value)}
+              />
+              <Input
+                id="accessToken"
+                placeholder="HuggingFace Access Token"
+                value={accessToken}
+                onChange={(e) => setAccessToken(e.target.value)}
+                type="password"
+                autoComplete="off"
+              />
             </CardContent>
           </Card>
         </div>
@@ -142,10 +154,6 @@ export default function Component() {
                   Stop Training
                 </Button>
               </div>
-              {/* <div className="space-y-2">
-                <Label>Pod Logs</Label>
-                <div className="md:col-span-2 border rounded-lg p-3 font-mono text-sm min-h-[200px] max-h-[40vh] overflow-h-screen"></div>
-              </div> */}
             </CardContent>
           </Card>
         </div>

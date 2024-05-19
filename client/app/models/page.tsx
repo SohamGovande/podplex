@@ -9,39 +9,45 @@ import { LuPlus } from 'react-icons/lu'
 
 const models = [
   {
-    name: 'GPT-3 Turbo',
-    metrics: 'Perplexity: 8.2, Accuracy: 92%, Inference Time: 120ms',
-    endpoint: 'https://api.openai.com/v1/engines/gpt-3-turbo',
+    name: "Llama-3",
+    hfName: "Undi95/Meta-Llama-3-8B-hf",
+    metrics: "Perplexity: 8.2, Inference Time: 120ms",
+    baseUrl: "https://api.openai.com/v1/engines/llama-3",
   },
   {
-    name: 'BERT-Large',
-    metrics: 'Perplexity: 6.9, Accuracy: 94%, Inference Time: 150ms',
-    endpoint: 'https://api.openai.com/v1/engines/bert-large',
+    name: "BERT-Large",
+    hfName: "google-bert/bert-large-uncased",
+    metrics: "Perplexity: 6.9, Inference Time: 150ms",
+    baseUrl: "https://api.openai.com/v1/engines/bert-large",
   },
   {
-    name: 'RoBERTa-Base',
-    metrics: 'Perplexity: 7.5, Accuracy: 93%, Inference Time: 130ms',
-    endpoint: 'https://api.openai.com/v1/engines/roberta-base',
+    name: "Mistral 7B",
+    hfName: "mistralai/Mistral-7B-v0.1",
+    metrics: "Perplexity: 7.5, Inference Time: 130ms",
+    baseUrl: "https://api.openai.com/v1/engines/mistral-7b",
   },
   {
-    name: 'GPT-J',
-    metrics: 'Perplexity: 8.7, Accuracy: 91%, Inference Time: 180ms',
-    endpoint: 'https://api.openai.com/v1/engines/gpt-j',
+    name: "Grok-1",
+    hfName: "xai-org/grok-1",
+    metrics: "Perplexity: 8.7, Inference Time: 180ms",
+    baseUrl: "https://api.openai.com/v1/engines/grok-1",
   },
   {
-    name: 'T5-Base',
-    metrics: 'Perplexity: 7.2, Accuracy: 92%, Inference Time: 160ms',
-    endpoint: 'https://api.openai.com/v1/engines/t5-base',
+    name: "T5-Base",
+    hfName: "google-t5/t5-base",
+    metrics: "Perplexity: 7.2, Inference Time: 160ms",
+    baseUrl: "https://api.openai.com/v1/engines/t5-base",
   },
 ]
 
 export default function ModelsPage() {
   const [open, setOpen] = useState(false)
   const [model, setModel] = useState<{
-    name: string
-    metrics: string
-    endpoint: string
-  } | null>(null)
+    name: string;
+    hfName: string;
+    metrics: string;
+    baseUrl: string;
+  } | null>(null);
 
   return (
     <main className='container mx-auto px-4 py-12 md:px-6 lg:py-16'>

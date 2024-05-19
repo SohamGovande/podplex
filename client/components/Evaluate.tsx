@@ -16,10 +16,11 @@ export default function Evaluate({
   open: boolean
   setOpen: (open: boolean) => void
   model: {
-    name: string
-    metrics: string
-    endpoint: string
-  } | null
+    name: string;
+    hfName: string;
+    metrics: string;
+    baseUrl: string;
+  } | null;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [evalSet, setEvalSet] = useState<File | null>(null)
