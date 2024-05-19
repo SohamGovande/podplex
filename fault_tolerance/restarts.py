@@ -49,8 +49,6 @@ def trigger_restart(pods, desired_pods):
     
     print("Termination complete")
 
-    return
-
     print("Restarting Pods...")
 
     new_pods = []
@@ -58,16 +56,37 @@ def trigger_restart(pods, desired_pods):
     for i in range(desired_pods):
         print("Restarting pod: ", i)
 
-        # params to pass in:
-        # - return pod ID, pass in network drive
+        print("Terminating pod: ", pod['id'])
 
-        response = requests.post(url, headers=headers, json=CREATE_POD)
+        create_variables = {
+            "input": {
+                "bidPerGpu": 0.55,
+                "cloudType": "SECURE",
+                "containerDiskInGb": 20,
+                "volumeInGb": 0,
+                "gpuCount": 1,
+                "gpuTypeId": "NVIDIA A40",
+                "minMemoryInGb": 48,
+                "minVcpuCount": 9,
+                "networkVolumeId": "b6w3w794gy",
+                "startJupyter": True,
+                "startSsh": True,
+                "templateId": "runpod-torch",
+                "volumeKey": "null",
+                "ports": "8888/http,22/tcp",
+                "dataCenterId": "CA-MTL-1",
+            }
+        }
+
+        create_payload = {
+            "query": CREATE_POD,
+            "variables": create_variables
+        }
+
+        response = requests.post(url, headers=headers, json=create_payload)
         result = response.json()
 
-        # get pod ID
         print("Result: ", result)
-
-        # new_pods.append(result['data']['createPod']['id'])
     
     print("New pods: ", new_pods)
     print("Restart complete")
