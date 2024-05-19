@@ -3,15 +3,16 @@
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DialogTitle,
-  DialogHeader,
-  DialogFooter,
-  DialogContent,
-  Dialog,
-} from "@/components/ui/dialog";
+import { DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@mantine/core";
+import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  "https://twuuwrleysnspvxvjfvl.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dXV3cmxleXNuc3B2eHZqZnZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxMjQzMDUsImV4cCI6MjAzMTcwMDMwNX0.SnbmdBL_Vtj9_Gcn10zu_ohFsaszdQSFkusUk4kIQWk"
+);
 
 export default function Evaluate({
   open,
@@ -43,8 +44,15 @@ export default function Evaluate({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!evalSet) return;
     setOpen(false);
+
+    // upload csv to supabase
+    await supabase.storage
+      .from("public")
+      .upload(`eval_files/${evalSet.name}`, evalSet);
+
     // TODO: run evals
   };
 
