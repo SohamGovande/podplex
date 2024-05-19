@@ -2,10 +2,10 @@
 
 import { useRef, useState } from 'react'
 
-import { Button } from '@/ren/ui/button'
-import { DialogTitle, DialogHeader, DialogFooter, DialogContent, Dialog } from '@/ren/ui/dialog'
-import { Label } from '@/ren/ui/label'
-import { Slider } from '@/ren/ui/slider'
+import { Button } from '@/components/ui/button'
+import { DialogTitle, DialogHeader, DialogFooter, DialogContent, Dialog } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Slider } from '@/components/ui/slider'
 import { Modal } from '@mantine/core'
 
 export default function Evaluate({

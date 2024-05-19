@@ -1,9 +1,9 @@
 'use client'
 
-import { Label } from '@/ren/ui/label'
-import { Button } from '@/ren/ui/button'
-import { CardContent, Card } from '@/ren/ui/card'
-import { Input } from '@/ren/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { CardContent, Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { Dropzone } from '@mantine/dropzone'

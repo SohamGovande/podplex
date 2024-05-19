@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import Evaluate from '@/ren/Evaluate'
-import { Button } from '@/ren/ui/button'
+import Evaluate from '@/components/Evaluate'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { LuPlus } from 'react-icons/lu'
 

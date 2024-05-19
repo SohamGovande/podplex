@@ -1,4 +1,4 @@
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from '@/ren/ui/card'
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from '@/components/ui/card'
 import { LuCircuitBoard, LuNetwork } from 'react-icons/lu'
 
 type Props = {
