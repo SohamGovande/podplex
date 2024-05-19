@@ -22,12 +22,12 @@ That’s where PodPlex comes in. We integrate with decentralized cloud servers l
 
 ## Features
 
-Train machine learning models across distributed spot instances with FSDP.
-Automatic orchestration of Runpod pods for training via a custom Docker image
-Uses Runpod Spot instances + Community Cloud to reduce cloud costs by up to 76% (benchmarked on GTX 4090’s).
-Automatically handles restarts/failed nodes by using checkpoint backups.
-Run eval benchmarks against trained models using Runpod serverless
-Visualize evals in Nomic for quick feedback loops
+- Train machine learning models across distributed spot instances with FSDP (Answer.AI implementation).
+- Automatic orchestration of Runpod pods for training via a custom Docker image
+- Uses Runpod Spot instances + Community Cloud to reduce cloud costs by up to 76% (benchmarked on GTX 4090’s).
+- Automatically handles restarts/failed nodes by using checkpoint backups.
+- Run eval benchmarks against trained models using Runpod serverless
+- Visualize evals in Nomic for quick feedback loops
 
 ![Nomic Viz](https://i.postimg.cc/mgPSHrp4/image.png)
 
@@ -43,7 +43,7 @@ AWS lambda code for checking spot instance health and restarting pods if any shu
 
 ### fsdp
 
-Uses Fully Sharded Data Parallel methodology to train across multiple GPUs. These pods use custom docker images to train the model.
+Uses Fully Sharded Data Parallel methodology to train across multiple GPUs (see [AnswerDotAI implementation](https://github.com/AnswerDotAI/fsdp_qlora)). These pods use custom docker images to train the model.
 
 ### scheduler
 
