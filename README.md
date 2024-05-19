@@ -4,6 +4,8 @@
 
 _built in < 24 hours at the [Runpod hackathon](https://partiful.com/e/PjgYh4cceTpxWN27i7ty) (co-hosted by Etched, Nomic, Replit, and vLLM)_
 
+_🏆 UPDATE: This project won the $10,000 prize from Runpod at the hackathon! We feel humbled and are excited for the new things we can build with the credits._
+
 ## our architecture
 
 - train & inference on **RunPod serverless**, **RunPod pods**, **RunPod network storage**
