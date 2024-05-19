@@ -45,7 +45,7 @@ export default function MainPage() {
             <b>monitor your job</b>: track the progress of your training job in real-time using the pod status page
           </li>
         </ol>
-        <a href='/pods' className='bg-black uppercase font-mono hover:bg-gray-800 self-start text-white p-4 rounded-md'>
+        <a href='/models' className='bg-black uppercase font-mono hover:bg-gray-800 self-start text-white p-4 rounded-md'>
           enter &rarr;
         </a>
       </div>
