@@ -4,22 +4,27 @@ import torch.optim as optim
 import torch.nn.functional as F
 from fairscale.nn.pipe.balance import balance_by_size
 
-
+# define the model
 model = torch.nn.Sequential(
             torch.nn.Linear(10, 10),
             torch.nn.ReLU(),
             torch.nn.Linear(10, 5)
         )
 
+# define a sample input and use it to balance the model by size
 sample = torch.randn(20, 10)
 partitions = torch.cuda.device_count()
 balance = balance_by_size(partitions, model, sample)
 
+# create a piped model
 model = fairscale.nn.Pipe(model, balance)
 optimizer = optim.SGD(model.parameters(), lr=0.001)
 loss_fn = F.nll_loss
 
+# zero the gradients
 optimizer.zero_grad()
+
+# get the target and data
 target = torch.randint(0,2,size=(20,1)).squeeze()
 data = torch.randn(20, 10)
 
