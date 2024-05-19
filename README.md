@@ -2,6 +2,8 @@
 
 🦾💻🌐 distributed training & serverless inference at scale (https://podplex.run)
 
+_built in < 24 hours at the [Runpod hackathon](https://partiful.com/e/PjgYh4cceTpxWN27i7ty) (co-hosted by Etched, Nomic, Replit, and vLLM)_
+
 ## our architecture
 
 - train & inference on **RunPod serverless**, **RunPod pods**, **RunPod network storage**
