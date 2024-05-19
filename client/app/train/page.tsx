@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Dropzone } from "@mantine/dropzone";
+import { FaTrash } from "react-icons/fa";
+import { ActionIcon } from "@mantine/core";
 
 export default function Component() {
   const [dataSet, setDataSet] = useState<File | null>(null);
@@ -64,14 +66,25 @@ export default function Component() {
   return (
     <main className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
       <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-        <div className="space-y-4 flex flex-col h-full">
-          <div className="space-y-2">
+        <div className="space-y-4 flex flex-col h-full lg:col-span-2">
+          <div className="space-y-2 w-full">
             <h2 className="text-2xl font-bold tracking-tight">
               Dataset Selection
             </h2>
             <p className="text-gray-500 dark:text-gray-400">
-              Upload a dataset(s) to use for training.
+              Upload a dataset to use for training.
             </p>
+            {dataSet && (
+              <div>
+                <p className="text-lg">Selected data set</p>
+                <div className="flex items-center gap-x-4">
+                  <p className="text-sm font-light">{dataSet.name}</p>
+                  <ActionIcon variant="filled" aria-label="Settings" color="gray" onClick={() => setDataSet(null)}>
+                    <FaTrash size={12} />
+                  </ActionIcon>
+                </div>
+              </div>
+            )}
           </div>
           <Card className="flex flex-1 items-center justify-center p-6">
             <Dropzone
@@ -86,24 +99,9 @@ export default function Component() {
                 </div>
               </div>
             </Dropzone>
-            {/* <div className="space-y-4 p-3 flex-1">
-              <Button
-                className="w-full h-full"
-                variant="outline"
-                onClick={handleButtonClick}
-              >
-                Upload Custom Dataset
-              </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-            </div> */}
           </Card>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 lg:col-span-2">
           <div className="space-y-2">
             <h2 className="text-2xl font-bold tracking-tight">
               Model Selection
@@ -198,10 +196,10 @@ export default function Component() {
                   Stop Training
                 </Button>
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label>Pod Logs</Label>
                 <div className="md:col-span-2 border rounded-lg p-3 font-mono text-sm min-h-[200px] max-h-[40vh] overflow-h-screen"></div>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
         </div>

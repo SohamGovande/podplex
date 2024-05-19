@@ -73,7 +73,7 @@ export default function PodStatus({ pod }: Props) {
             <div className="grid sm:grid-cols-2 gap-4">
               {pod?.runtime?.ports.map((port: any, index: number) => (
                 <div
-                  key={port.ip}
+                  key={`${index}-${port.ip}`}
                   className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md"
                 >
                   <div className="flex items-center justify-between">
