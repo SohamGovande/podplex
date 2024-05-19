@@ -2,10 +2,12 @@
 
 💻🌐 distributed training & inference at scale - https://podplex.run
 
-train & inference on **RunPod serverless**, **RunPod pods**, **RunPod network storage**
-data visualizations on **Nomic**
-frontend on **Vercel**
-prototyped on ReplIt
+## our architecture
+
+- train & inference on **RunPod serverless**, **RunPod pods**, **RunPod network storage**
+- data visualizations on **Nomic**
+- frontend on **Vercel**
+- built with **Replit**
 
 ![Architecture Diagram](https://i.postimg.cc/057FzVMn/image.png)
 
