@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
-const API_KEY = "E9D2TYFUE8";
+const API_KEY = "CZIZ7HIRD8WP96NLMXVWHUF612RLYKSOJBR3YT4S";
 
 export const client = new ApolloClient({
   link: new HttpLink({
