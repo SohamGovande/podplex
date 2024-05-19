@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { TextInput, Button } from "@mantine/core";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import PodStatus from "@/Components/PodStatus";
+import PodStatus from "@/components/PodStatus";
 import { POD_RENT_MUTATION } from "@/utils/rentPod";
 import { GET_ALL_PODS } from "@/utils/getPods";
 import { STOP_POD } from "@/utils/stopPod";
@@ -18,9 +18,8 @@ export default function Home() {
     useMutation(POD_RENT_MUTATION);
   const [listAllPods, { data: allPodsData, loading: allPodsLoading }] =
     useLazyQuery(GET_ALL_PODS);
-  const [stopPod, { data: stopPodData, loading: stopPodLoading }] = useMutation(
-    STOP_POD
-  );
+  const [stopPod, { data: stopPodData, loading: stopPodLoading }] =
+    useMutation(STOP_POD);
 
   useEffect(() => {
     listAllPods();
