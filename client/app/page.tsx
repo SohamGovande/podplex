@@ -13,7 +13,7 @@ export default function MainPage() {
 
   return (
     <main className='h-[100vh] flex flex-col-reverse md:flex-row'>
-      <div className='flex-1 flex items-center justify-center'>
+      <div className='flex-1 hidden md:flex items-center justify-center'>
         <canvas ref={canvasRef} id='gradient-canvas' />
       </div>
       <div className='flex-1 flex flex-col gap-4 py-4 px-10'>
