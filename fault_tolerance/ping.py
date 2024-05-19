@@ -7,11 +7,11 @@ import requests
 
 # delete the RUNPOD_API_KEY from environ 
 DESIRED_PODS = 2
-del os.environ["RUNPOD_API_KEY"]
+# del os.environ["RUNPOD_API_KEY"]
 
-dotenv.load_dotenv()
-runpod.api_key = os.getenv("RUNPOD_API_KEY")
-endpoints = runpod.get_endpoints()
+# dotenv.load_dotenv()
+# runpod.api_key = os.getenv("RUNPOD_API_KEY")
+# endpoints = runpod.get_endpoints()
 
 url = 'https://api.runpod.io/graphql?api_key=CZIZ7HIRD8WP96NLMXVWHUF612RLYKSOJBR3YT4S'
 headers = {
