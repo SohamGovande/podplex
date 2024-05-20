@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
-const API_KEY = "CZIZ7HIRD8WP96NLMXVWHUF612RLYKSOJBR3YT4S";
+const API_KEY = process.env.NEXT_PUBLIC_RUNPOD_API_KEY;
 
 export const client = new ApolloClient({
   link: new HttpLink({

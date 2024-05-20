@@ -7,12 +7,9 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@mantine/core";
 import axios from "axios";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/utils";
 
-const supabase = createClient(
-  "https://twuuwrleysnspvxvjfvl.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dXV3cmxleXNuc3B2eHZqZnZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxMjQzMDUsImV4cCI6MjAzMTcwMDMwNX0.SnbmdBL_Vtj9_Gcn10zu_ohFsaszdQSFkusUk4kIQWk"
-);
+const supabase = createClient();
 
 export default function Evaluate({
   open,
@@ -48,13 +45,13 @@ export default function Evaluate({
     if (!evalSet) return;
     setOpen(false);
 
-    // upload csv to supabase
+    // upload csv to supabase because runpod serverless has a max payload of 10mb
     const { data } = await supabase.storage
       .from("eval_files")
       .upload(`${evalSet.name}`, evalSet);
 
     // evaluate model
-    await axios.post("https://api.runpod.ai/v2/6lgg72smxe3cky/runsync", {
+    await axios.post(process.env.NEXT_PUBLIC_RUNPOD_INFERENCE_ENDPOINT!, {
       input: {
         eval_file: data?.path,
         model_name: model?.name,

@@ -6,14 +6,15 @@ from inference import run_inference_pipeline
 from supabase import create_client, Client
 from io import StringIO, BytesIO
 import datetime
+import os
 
-supabase: Client = create_client(
-    "https://twuuwrleysnspvxvjfvl.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dXV3cmxleXNuc3B2eHZqZnZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxMjQzMDUsImV4cCI6MjAzMTcwMDMwNX0.SnbmdBL_Vtj9_Gcn10zu_ohFsaszdQSFkusUk4kIQWk",
-)
 
 EVAL_BUCKET_NAME = "public"
 RESULT_BUCKET_NAME = "eval_results"
+supabase: Client = create_client(
+    os.environ.get("SUPABASE_URL"),
+    os.environ.get("SUPABASE_KEY"),
+)
 
 
 def upload_dataframe_to_supabase(df: pd.DataFrame, bucket_name: str):

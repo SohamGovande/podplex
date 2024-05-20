@@ -1,14 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import PodStatus from "@/components/PodStatus";
-import { POD_RENT_MUTATION } from "@/utils/rentPod";
 import { GET_ALL_PODS } from "@/utils/getPods";
-import { STOP_POD } from "@/utils/stopPod";
 import { IoRefresh } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
-import { LuCircleDashed } from "react-icons/lu";
 import Link from "next/link";
 
 export default function Home() {

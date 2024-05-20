@@ -8,6 +8,7 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "../apollo-client";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 import "@mantine/dropzone/styles.css";
 
@@ -52,6 +53,7 @@ export default function RootLayout({
           >
             <div className="flex min-h-[calc(100vh_-_64px)]">{children}</div>
           </MantineProvider>
+          <Toaster />
         </body>
       </ApolloProvider>
     </html>

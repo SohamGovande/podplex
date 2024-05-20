@@ -9,17 +9,17 @@ from openai import AsyncOpenAI
 import os
 import asyncio
 
-supabase: Client = create_client(
-    "https://twuuwrleysnspvxvjfvl.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3dXV3cmxleXNuc3B2eHZqZnZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYxMjQzMDUsImV4cCI6MjAzMTcwMDMwNX0.SnbmdBL_Vtj9_Gcn10zu_ohFsaszdQSFkusUk4kIQWk",
-)
 
-EVAL_BUCKET_NAME = "public"
+EVAL_BUCKET_NAME = "evals"
 RESULT_BUCKET_NAME = "eval_results"
 
 
-api_key = "J9K8LEYPJR7PW19J184Z79KYGXFO7Z0U43C862M1"
+api_key = os.environ.get("RUNPOD_API_KEY")
 endpoint_id = os.environ.get("RUNPOD_ENDPOINT_ID")
+supabase: Client = create_client(
+    os.environ.get("SUPABASE_URL"),
+    os.environ.get("SUPABASE_KEY"),
+)
 
 
 client = AsyncOpenAI(
