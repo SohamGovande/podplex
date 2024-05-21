@@ -60,3 +60,20 @@ Runpod Serverless endpoint with vLLM’s for inference
 ### parallel
 
 Runpod Serverless endpoint with torch inference + experiments
+
+
+## Getting Started
+Start training with `fsdp/train_llama.py.` Sample training command: 
+
+```
+python train_llama.py \
+--model_name meta-llama/Meta-Llama-Guard-2-8B \
+--batch_size 2 \
+--context_length 512 \
+--precision bf16 \
+--train_type qlora \
+--use_gradient_checkpointing true \
+--use_cpu_offload true \
+--dataset alpaca \
+--reentrant_checkpointing true
+```
