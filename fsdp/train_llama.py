@@ -82,7 +82,7 @@ except ImportError:
     pass
 
 # LoRA and DORA modules
-sys.path.append("./scripts")
+sys.path.append("fsdp_qlora/scripts")
 from lora import LORA
 from dora import BNBDORA, HQQDORA, DORALayer, MagnitudeLayer
 
