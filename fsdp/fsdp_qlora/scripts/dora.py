@@ -4,7 +4,7 @@ import bitsandbytes as bnb
 
 # Wrapping policy requires modules, base_layer has no grad params, lora_A, lora_B, dora_scale have grad params.
 class DORALayer(nn.Module):
-    "Same as LORA but also returnes weight norm. This will be wrapped as a single FSDP unit"
+    "Same as LORA but also returned weight norm. This will be wrapped as a single FSDP unit"
     def __init__(self, in_features, out_features, lora_rank, device, dtype, *args, **kwargs):
         super().__init__()
         # Init LoRA layers.
