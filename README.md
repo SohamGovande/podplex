@@ -77,3 +77,5 @@ python train_llama.py \
 --dataset alpaca \
 --reentrant_checkpointing true
 ```
+
+Note, that you need to request access from the Llama Page on HuggingFace to access the model.
